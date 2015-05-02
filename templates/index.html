@@ -4,6 +4,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script>
+    var REDRAW_EVERY = 10; //seconds
     var graphit = function(data) {
       $('#container').highcharts({
         title: {
@@ -39,7 +40,11 @@
     });
     };
   $(function () {
-    $.get("/read", function(data) { graphit(data); });
+    var draw = function() {
+      $.get("/read", function(data) { graphit(data); });
+      setTimeout(draw, REDRAW_EVERY*1000);
+    };
+    draw();
   });
 </script>
 </head>
